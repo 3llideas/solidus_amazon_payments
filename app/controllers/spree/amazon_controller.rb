@@ -22,6 +22,7 @@ class Spree::AmazonController < Spree::StoreController
   end
 
   def payment
+    @order = current_order
     payment = current_order.payments.valid.amazon.first || current_order.payments.create
     payment.number = params[:order_reference]
     payment.payment_method = gateway
