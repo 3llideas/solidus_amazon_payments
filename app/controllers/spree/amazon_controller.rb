@@ -16,7 +16,7 @@ class Spree::AmazonController < Spree::StoreController
 
   def address
     @amazon_gateway = gateway
-
+    @order = current_order
     current_order.state = 'address'
     current_order.save!
   end
@@ -37,6 +37,7 @@ class Spree::AmazonController < Spree::StoreController
   end
 
   def delivery
+    @order = current_order
     address = SpreeAmazon::Address.find(
       current_order.amazon_order_reference_id,
       gateway: gateway,
@@ -60,6 +61,7 @@ class Spree::AmazonController < Spree::StoreController
   end
 
   def confirm
+    @order = current_order
     if Spree::OrderUpdateAttributes.new(current_order, checkout_params, request_env: request.headers.env).apply
       while current_order.next
       end
