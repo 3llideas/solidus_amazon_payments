@@ -6,52 +6,17 @@
 <%# @copyright   Copyright (c) 2014 Amazon.com %>
 <%# @license     http://opensource.org/licenses/Apache-2.0  Apache License, Version 2.0 %>
 <%# %>
-<div class="container container-checkout">
-  <div class="row">
-    <div class="col-xs-12">
-      <%= form_tag spree.complete_amazon_order_path, :class => 'edit_order' do %>
-        <div class="panel panel-checkout" id="order_details" data-hook>
-          <div class="panel-checkout-heading">
-            <h3 class="panel-title"><%= Spree.t(:confirm) %></h3>
-          </div>
-          <div class="panel-body">
-            <%= render partial: 'spree/shared/order_details', locals: {order: @order} %>
+<div class="container">
+<fieldset id="order_details" data-hook>
+  <div class="clear"></div>
+  <legend align="center"><%= Spree.t(:confirm) %></legend>
+  <%= render :partial => 'spree/amazon/order_details', :locals => { :order => current_order } %>
+</fieldset>
 
-            <% Spree::Frontend::Config[:require_terms_and_conditions_acceptance].tap do |requires_acceptance| %>
-              <div class="row terms_and_conditions" data-hook="buttons">
-                <% if requires_acceptance %>
-                  <h4 class="text-muted upper"><%= Spree.t('stoam_base_theme.aceptacion_condiciones') %></h4>
-                  <div class="col-xs-12" data-hook="terms_and_conditions">
-                    <div class="policy">
-                      <div class="mytextarea">
-                        <%= render partial: 'spree/static/condiciones_generales' %>
-                      </div>
-                      <div class="accept-policy">
-                        <%= check_box_tag :accept_terms_and_conditions, 'accepted', false %>
-                        <%= label_tag :accept_terms_and_conditions, Spree.t(:agree_to_terms_of_service), class: 'text-muted' %>
-                      </div>
-                    </div>
-
-                  </div>
-                <% end %>
-              </div>
-            <% end %>
-
-          </div>
-        </div>
-
-        <div class="well text-right form-buttons" data-hook="buttons">
-          <%= submit_tag Spree.t(:place_order), :class => 'btn btn-lg btn-stoam-secundary upper', disabled: 'disabled' %>
-          <script>Spree.disableSaveOnClick();</script>
-        </div>
-
-      <% end %>
-    </div>
+<%= form_tag spree.complete_amazon_order_path, :class => 'edit_order' do %>
+  <div class="well text-right form-buttons" data-hook="buttons">
+    <%= submit_tag Spree.t(:place_order), :class => 'btn btn-lg btn-success' %>
+    <script>Spree.disableSaveOnClick();</script>
   </div>
+<% end %>
 </div>
-
-
-
-
-
-
